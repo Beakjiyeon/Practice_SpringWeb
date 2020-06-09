@@ -19,5 +19,8 @@ public interface BoardMapper {
 	
 	// 게시물 삭제
 	public int delete(Long bno);// 삭제된 글 갯수 반환
+	
+	// 게시글  수정
+	public int update(BoardVO board);
 
 }

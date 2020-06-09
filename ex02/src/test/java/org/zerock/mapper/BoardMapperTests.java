@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j;
 public class BoardMapperTests {
 	
 	//
-	@Setter(onMethod_= {@Autowired})
+	@Setter(onMethod_= @Autowired)
 	private BoardMapper  mapper;
 	@Test
 	public void testGetList(){
@@ -55,5 +55,16 @@ public class BoardMapperTests {
 	public void testDelete() {
 		int count=mapper.delete(3L);  // 3번 게시물삭제
 		log.info("Delete COUNT: "+count);
+	}
+	@Test
+	public void testUpdate() {
+		BoardVO board = new BoardVO(); 
+		// 실행전 존재하는 번호인지 확인할 것
+		board.setBno(5L); 
+		board.setTitle("수정된 제목"); 
+		board.setContent("수정된 내용"); 
+		board.setWriter("user00");
+		int count = mapper.update(board); 
+		log.info("UPDATE COUNT: " + count);
 	}
 }
