@@ -55,6 +55,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	
 	// 게시글 삭제하기 -> 삭제후 리스트가 보여지도록
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno,RedirectAttributes rttr) {
@@ -63,6 +64,14 @@ public class BoardController {
 			rttr.addFlashAttribute("result", "success");
 		} 
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping({"/get","/modify"})
+	public void get(@RequestParam("bno") Long  bno,Model model) {
+		log.info("/get");
+		model.addAttribute("board", service.get(bno));
+		// get.jsp로 이동
+		// modify.jsp로 이동
 	}
 
 }
