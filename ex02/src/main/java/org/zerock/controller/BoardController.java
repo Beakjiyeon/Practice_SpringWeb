@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -23,18 +24,23 @@ public class BoardController {
 	private BoardService service;
 	
 	// 게시물 목록 얻기
-	@GetMapping("/list")
-	public  void list(Model model) { //자동으로 주입된다.  스프링이  알아서 넣어줌.
-		log.info("게시물 목록  얻기 . . .");
-		model.addAttribute("list",service.getList()); // key, value
-		// return xxx;  xxx는 뷰이름
+	@GetMapping("/list") 
+	public void list(Criteria cri, Model model) { 
+		log.info("list: " + cri); 
+		model.addAttribute("list", service.getList(cri));
 	}
 	
-	// 게시물 등록하기
+	
+	
+	// GET 요청 - 게시글 등록하기
 	@GetMapping("/register")
-	public void  register() {
-		//  뷰이름은  자동으로 register.jsp
+	public void register() {
+		//반화형이 void면 함수 이름을 가지고 있는 뷰가 자동으로 리턴된다.
+		//view: register.jsp
 	}
+	
+	
+	// POST 요청 - 게시물 등록하기
 	@PostMapping("/register")
 	public String register(BoardVO  board,RedirectAttributes rttr) {
 		log.info("게시글 등록 . . ."+board);
@@ -55,7 +61,6 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	
 	// 게시글 삭제하기 -> 삭제후 리스트가 보여지도록
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno,RedirectAttributes rttr) {
@@ -66,12 +71,13 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@GetMapping({"/get","/modify"})
-	public void get(@RequestParam("bno") Long  bno,Model model) {
-		log.info("/get");
-		model.addAttribute("board", service.get(bno));
-		// get.jsp로 이동
-		// modify.jsp로 이동
+	// 게시글 상세 조회
+	@GetMapping({"/get", "/modify"})
+	public void get(@RequestParam("bno") Long bno, Model model) {
+		log.info("/get or modify");
+		model.addAttribute("board",service.get(bno));
+		
+		//반환형이 void니까 get.jsp로 이동
 	}
 
 }

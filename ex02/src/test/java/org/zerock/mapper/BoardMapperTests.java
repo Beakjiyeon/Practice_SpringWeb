@@ -1,5 +1,7 @@
 package org.zerock.mapper;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.junit.Test;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.persistence.DataSourceTests;
 
 import lombok.Setter;
@@ -68,4 +71,14 @@ public class BoardMapperTests {
 		log.info("UPDATE COUNT: " + count);
 	}
 	
+	//2페이지 데이터(역순으로 다음 10개 데이터) 관련 메시지 확인
+	@Test
+	public void testPaging() { 
+		Criteria cri = new Criteria(); 
+		cri.setPageNum(3); 
+		cri.setAmount(10);
+		List<BoardVO> list = mapper.getListWithPaging(cri); 
+		list.forEach(board -> log.info(board.getBno()));
+	}
+
 }

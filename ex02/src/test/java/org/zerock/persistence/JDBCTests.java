@@ -19,6 +19,7 @@ public class JDBCTests {
 	@Test
 	public void testConnection() {
 		try(Connection con=DriverManager.getConnection(
+				
 				"jdbc:oracle:thin:@localhost:1521:XE","book_ex","1111"				
 				)){
 			log.info(con);

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 import org.zerock.mapper.BoardMapper;
 
 
@@ -50,6 +51,12 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getList() {
 		log.info("게시글 목록...");
 		return mapper.getList();
+	}
+	
+	@Override 
+	public List<BoardVO> getList(Criteria cri) { //메소드 오버로딩
+		log.info("get List with criteria: " + cri); 
+		return mapper.getListWithPaging(cri);
 	}
 
 }
